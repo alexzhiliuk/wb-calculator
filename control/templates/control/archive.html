@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Поставки{% endblock %}
+
+{% block content %}
+<style>
+    input[type='number'] {
+        width: 68.8px;height: 29.6px;margin: 25px;border-radius: 7px;border-color: var(--bs-purple);
+    }
+    .search-input{
+        border-radius: 7px;border-color: var(--bs-purple);
+        margin: 30px 20px 0;
+        padding: 5px 10px;
+        max-width: 300px;
+        width: 100%;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <label class="form-label">Поиск:</label><input type="text" class="search-input"><button class="btn btn-primary search-input-btn" style="background: #d426ff;border-radius: 7px;border-style: none;">Найти</button>
+        </div>
+    </div>
+</div>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
+
+<div class="container">
+    <div class="row">
+
+        <p></p>
+
+
+        <div class="col-md-10 col-md-offset-1">
+
+            <div class="panel panel-default panel-table">
+                <div class="panel-heading">
+                    <div class="row">
+                    <div class="col col-xs-6">
+                        <h3 class="panel-title">Архив</h3>
+                    </div>
+                    
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-bordered table-list table_sort">
+                    <thead>
+                        <tr>
+                            <th><em class="fa fa-cog"></em></th>
+                            <th class="hidden-xs">ID</th>
+                            <th>Название товара</th>
+                            <th>Дата закупки</th>
+                            <th>Дата поставки</th>
+                            <th>Количество</th>
+                            <th>Адрес сортировочного центра</th>
+                            <th>Стоимость закупки, р</th>
+                            <th>Стоимость поставки, р</th>
+                            <th>Стоимость доставки до покупателя, р</th>
+                            <th>Статус</th>
+                        </tr> 
+                    </thead>
+                        <tbody>
+                            {% for item in items %}
+                            <tr>
+                                <td align="center">
+                                    {% if item.address %}
+                                    <a href="{% url 'delete_archive' status='shipment' uid=item.id %}" class="btn btn-danger"><em class="fa fa-trash"></em></a>
+                                    {% else %}
+                                    <a href="{% url 'delete_archive' status='purchase' uid=item.id %}" class="btn btn-danger"><em class="fa fa-trash"></em></a>
+                                    {% endif %}
+                                </td>
+                                <td class="hidden-xs">{{ item.id }}</td>
+                                <td>{{ item.title }}</td>
+                                {% if item.address %}
+                                <td></td>
+                                <td>{{ item.date|date:"Y-m-d H:i" }}</td>
+                                <td>{{ item.amount }}</td>
+                                <td>{{ item.address }}</td>
+                                <td></td>
+                                <td>{{ item.cost }}</td>
+                                <td>{{ item.delivery_cost }}</td>
+                                <td>Поставки</td>
+                                {% else %}
+                                <td>{{ item.date|date:"Y-m-d" }}</td>
+                                <td></td>
+                                <td>{{ item.amount }}</td>
+                                <td></td>
+                                <td>{{ item.cost }}</td>
+                                <td></td>
+                                <td></td>
+                                <td>Закупки</td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                
+                
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'js/bs-init.js' %}"></script>
+<script src="{% static 'js/calc.js' %}"></script>
+<script src="{% static 'js/sort.js' %}"></script>
+<script>
+    $(".btn-danger, .btn-success").click(function(event) {
+        event.preventDefault();
+        var req = confirm("Вы уверены?");
+            if (req){
+                $.get($(this).attr('href'))
+                $(this).parent("td").parent("tr").remove()
+            }
+    })
+
+    $(".search-input").val(window.location.search.split("=")[1])
+
+    $(".search-input-btn").click(function() {
+        window.location.href = "?search=" + $(".search-input").val()
+    })
+
+    $(".dropdown-item, .dropdown-toggle").removeClass("active")
+    $(".nav-item:nth-child(5) .nav-link").addClass("active")
+</script>
+{% endblock %}

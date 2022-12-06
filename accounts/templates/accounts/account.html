@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Личный кабинет{% endblock %}
+
+{% block content %}
+<div class="row d-inline register-form">
+    <div class="col-md-8 offset-md-2">
+        <form action="." method="post" class="custom-form">
+            <h1 class="heading">Личный кабинет</h1>
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="row form-group">
+                <div class="col-sm-4 label-column"><label class="col-form-label" for="{{ field.auto_id }}">{{ field.label }}</label></div>
+                <div class="col-sm-6 input-column">{{ field }}</div>
+            </div>
+            {% endfor %}
+            <button class="btn btn-light submit-button" type="submit" style="border-radius: 8px;">Сохранить</button>
+        </form>
+    </div>
+</div>
+<div class="row d-inline register-form">
+    <div class="col-md-8 offset-md-2">
+        <form action="{% url 'send_question' %}" method="post" class="custom-form">
+            <h2 class="heading">Написать вопрос</h2>
+            {% csrf_token %}
+            <div class="row form-group">
+                <div class="col-sm-12 input-column">{{ q_form.text }}</div>
+            </div>
+            <button class="btn btn-light submit-button" type="submit" style="border-radius: 8px;">Отправить</button>
+        </form>
+    </div>
+</div>
+<div class="row d-inline register-form">
+    <div class="col-md-8 offset-md-2">
+        <div class="custom-form" style="text-align: center;">
+            <a href="{% url 'password_change' %}" class="btn btn-light submit-button" type="button" style="border-radius: 8px;">Изменить пароль</a>
+            <a href="{% url 'delete_user' user.id %}" class="btn btn-light submit-button remove-account" type="button" style="border-radius: 8px; background-color:brown;">Удалить аккаунт</a>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'js/bs-init.js' %}"></script>
+<script src="{% static 'js/calc.js' %}"></script>
+<script>
+    $(".remove-account").click(function() {
+        var req = confirm("Вы уверены?");
+        if (!req){
+            event.preventDefault();
+        }
+    })
+
+    $(".nav-link").removeClass("active")
+    $(".nav-item:last-child .nav-link").addClass("active")
+    $(".dropdown-toggle, .dropdown-item").removeClass("active")
+</script>
+{% endblock %}

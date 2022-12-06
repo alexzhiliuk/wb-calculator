@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Ответить на вопрос{% endblock %}
+
+{% block content %}
+<div class="row d-inline register-form">
+    <div class="col-md-8 offset-md-2">
+        <form action="{% url 'send_question' %}" method="post" class="custom-form">
+            <h2 class="heading">Ответить пользователю {{ question.user.email }}</h2>
+            <div class="row form-group">
+                <div class="col-sm-12">{{ question.text }}</div>
+            </div>
+            {% csrf_token %}
+            <div class="row form-group">
+                <div class="col-sm-12 input-column">
+                    <textarea name="response" id="response" cols="40" rows="10" class="form-control"></textarea>
+                </div>
+            </div>
+            <button class="btn btn-light submit-button" type="submit" style="border-radius: 8px;">Отправить</button>
+        </form>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'js/bs-init.js' %}"></script>
+<script src="{% static 'js/calc.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Тарифы{% endblock %}
+
+{% block content %}
+<style>
+    .search-input{
+        border-radius: 7px;border-color: var(--bs-purple);
+        margin: 30px 20px 0;
+        padding: 5px 10px;
+        max-width: 300px;
+        width: 100%;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <label class="form-label">Поиск категории:</label><input type="text" class="search-input search-category"><button class="btn btn-primary search-input-btn" style="background: #d426ff;border-radius: 7px;border-style: none;">Найти</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <label class="form-label">Поиск продукта:</label><input type="text" class="search-input search-product"><button class="btn btn-primary search-input-btn" style="background: #d426ff;border-radius: 7px;border-style: none;">Найти</button>
+        </div>
+    </div>
+</div>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
+
+<div class="table-responsive">
+    <table class="table table_sort">
+        <thead>
+            <tr>
+                <th><strong>Категория</strong><br></th>
+                <th><strong>Предмет</strong><br></th>
+                <th><strong>Склад поставщика, %</strong><br></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for category in categories %}
+            {% for product in category.products.all %}
+            {% if product_search %}
+            {% if product_search.lower in product.title.lower %}
+            <tr>
+                <td>{{ category.title }}</td>
+                <td>{{ product.title }}</td>
+                <td>{{ product.get_fbs }}</td>
+            </tr>
+            {% endif %}
+            {% else %}
+            <tr>
+                <td>{{ category.title }}</td>
+                <td>{{ product.title }}</td>
+                <td>{{ product.get_fbs }}</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'js/bs-init.js' %}"></script>
+<script src="{% static 'js/calc.js' %}"></script>
+<script src="{% static 'js/sort.js' %}"></script>
+<script>
+
+    console.log(window.location.search.split("="))
+    if (window.location.search.split("=")[0] == "?category") {
+        $(".search-category").val(window.location.search.split("=")[1])
+    } else if (window.location.search.split("=")[0] == "?product") {
+        $(".search-product").val(window.location.search.split("=")[1])
+    }
+
+    $(".search-input-btn").click(function() {
+        console.log(1)
+        console.log($(this).parent("input"))
+        if ($(this).prev().hasClass("search-category")) {
+            console.log("category")
+            window.location.href = "?category=" + $(".search-category").val()
+        } else if ($(this).prev().hasClass("search-product")) {
+            console.log("product")
+            window.location.href = "?product=" + $(".search-product").val()
+        }
+    })
+
+    $(".dropdown-item, .dropdown-toggle").removeClass("active")
+    $(".nav-item:nth-child(3) .nav-link").addClass("active")
+</script>
+{% endblock %}

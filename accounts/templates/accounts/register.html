@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Регистрация{% endblock %}
+
+{% block content %}
+
+<section class="register-photo" style="background-color: transparent;">
+    <div class="form-container" style="margin-top: 40px;transform: translateY(-36px);">
+        <div class="image-holder" style="background: url({% static 'img/IINET-DOSAGE-1.jpg' %}) left / cover no-repeat;"></div>
+        <form method="post" action="." style="height: 525px;">
+            {% csrf_token %}
+            <h2 class="text-center"><strong>Создайте свой аккаунт</strong></h2>
+            <script>
+                // Submit button made with javascript
+                function changePassword() {
+                    var password = document.querySelector("#password").value;
+                    var confirmPassword = document.querySelector("#confirmPassword").value;
+                    
+                    if(password.length >= 8) {
+                        if(password === confirmPassword)
+                        {
+                            var btn = $('#submitButton').removeAttr("disabled");
+                            document.querySelector('#passwordsError').style.display = 'none';
+                            console.log("enabling")
+                        }
+                        else {
+                            var btn = $('#submitButton').attr("disabled", "true");
+                            document.querySelector('#passwordsError').style.display = 'block';
+                            document.querySelector('#errorMessage').innerHTML = 'The passwords do not match';
+                            console.log("disabling")
+                        }
+                    }
+                    else {
+                        var btn = $('#submitButton').attr("disabled", "true");
+                        document.querySelector('#passwordsError').style.display = 'block';
+                        document.querySelector('#errorMessage').innerHTML = 'The password must be at least 8 characters long';
+                        console.log("disabling")
+                    }
+                }
+            </script>
+            <div style="margin-bottom: 16.5px;">
+                {% if messages %}
+                <span class="text-danger" style="font-size:13px;">
+                    {% for message in messages %}
+                    {{ message }} <br>
+                    {% endfor %}
+                </span>
+                {% endif %}
+            </div>
+            <div class="form-group mb-3">{{user_form.first_name}}</div>
+            <div class="form-group mb-3">{{user_form.last_name}}</div>
+            <div class="form-group mb-3">{{user_form.email}}</div>
+            <div id="passwordsError" style="display: none;margin-bottom: 16.5px;"><span id="errorMessage" class="text-danger" style="font-size:13px;"></span></div>
+            <div class="form-group mb-3">{{user_form.password}}</div>
+            <div class="form-group mb-3">{{user_form.password2}}</div>
+            <div class="form-group mb-3"><button class="btn btn-primary d-block w-100" id="submitButton" type="submit" style="color: rgb(255,255,255);background-color: #c229bc;">Сохранить</button></div>
+        </form>
+    </div>
+</section>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'js/bs-init.js' %}"></script>
+<script src="{% static 'js/calc.js' %}"></script>
+{% endblock %}

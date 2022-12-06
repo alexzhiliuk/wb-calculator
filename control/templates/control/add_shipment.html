@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Поставки{% endblock %}
+
+{% block content %}
+<div class="row d-inline register-form">
+    <div class="col-md-8 offset-md-2">
+        <form action="." method="POST" class="custom-form">
+            <h1 class="heading">Добавить поставку</h1>
+            {% csrf_token %}
+            {% if messages %}
+            <div style="margin-bottom: 16.5px;">
+                <span class="text-danger" style="font-size:13px;">
+                    {% for message in messages %}
+                    {{ message }} <br>
+                    {% endfor %}
+                </span>
+            </div>
+            {% endif %}
+            <div class="row form-group">
+                <div class="col-sm-4 label-column"><label class="col-form-label" for="name-input-field">{{ form.title.label_tag }}</label></div>
+                <div class="col-sm-6 input-column">{{ form.title }}</div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-4 label-column"><label class="col-form-label" for="email-input-field">{{ form.date.label_tag }}</label></div>
+                <div class="col-sm-6 input-column">{{ form.date }}</div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-4 label-column"><label class="col-form-label" for="pawssword-input-field">{{ form.amount.label_tag }}</label></div>
+                <div class="col-sm-6 input-column">{{ form.amount }}</div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-4 label-column"><label class="col-form-label" for="pawssword-input-field">{{ form.address.label_tag }}</label></div>
+                <div class="col-sm-6 input-column">{{ form.address }}</div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-4 label-column"><label class="col-form-label" for="repeat-pawssword-input-field">{{ form.cost.label_tag }}</label></div>
+                <div class="col-sm-6 input-column">{{ form.cost }}</div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-4 label-column"><label class="col-form-label" for="repeat-pawssword-input-field">{{ form.delivery_cost.label_tag }}</label></div>
+                <div class="col-sm-6 input-column">{{ form.delivery_cost }}</div>
+            </div>
+            <button class="btn btn-light submit-button" type="submit" style="border-radius: 8px;">Сохранить</button>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'js/bs-init.js' %}"></script>
+<script src="{% static 'js/calc.js' %}"></script>
+<script>
+    $("input[name='date']").attr("type", "datetime-local")
+    $(".dropdown-item").removeClass("active")
+    $(".dropdown-toggle").removeClass("active")
+</script>
+{% endblock %}
