@@ -6,7 +6,7 @@
 {% block content %}
 <div class="row d-inline register-form">
     <div class="col-md-8 offset-md-2">
-        <form action="{% url 'send_question' %}" method="post" class="custom-form">
+        <form action="{% url 'send_question_response' question.id %}" method="post" class="custom-form">
             <h2 class="heading">Ответить пользователю {{ question.user.email }}</h2>
             <div class="row form-group">
                 <div class="col-sm-12">{{ question.text }}</div>

@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'questions',
     'control',
     'tariffs',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -108,7 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = 'UTC'
 
@@ -134,8 +135,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 EMAIL_HOST = os.environ.get("EMAIL_HOST", 'smtp.mail.ru')
-EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", '')
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", '')
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", 'alexandr-zhyliuk@mail.ru')
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", '6gRKpW0ebz9eaQxvLqJ9')
 EMAIL_PORT = int(os.environ.get("EMAIL_PORT", "587"))
 EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS", 'false') != "True"
 
